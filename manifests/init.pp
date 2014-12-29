@@ -41,7 +41,7 @@ define local_user (
   else {
     validate_re($shell, '^/.*/.*')
     validate_string($comment)
-    validate_string($groups)
+    validate_array($groups)
     validate_string($password)
     validate_re($password_max_age, '^\d+$')
     validate_string($home)
