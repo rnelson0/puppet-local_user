@@ -25,8 +25,9 @@ groups, and initial password:
       password         => 'encryptedstring',
     }
 
-You may also provide the shell, home directory, and password max age. These
-values default to /bin/bash, /home/<username>, and 90 days, respectively.
+You may also provide the shell, home directory, password max age, and the last
+change date (YYYY-MM-DD or number of days since Jan 1, 1970). These values
+default to /bin/bash, /home/<username>, 90 days, and 0 days, respectively.
 
     local_user { 'username':
       state            => 'present',
@@ -34,6 +35,10 @@ values default to /bin/bash, /home/<username>, and 90 days, respectively.
       home             => '/home/username',
       comment          => 'Real Name',
       groups           => ['group1', 'group2'],
+      last_change      => '2015-01-01',
       password         => 'encryptedstring',
       password_max_age => 90,
     }
+
+Note: The encrypted string is processed via sed using '/' seperators. You MUST
+escape any '/' characters.
