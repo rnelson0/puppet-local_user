@@ -28,6 +28,7 @@ define local_user (
   $home             = "/home/${name}",
   $comment,
   $groups,
+  $expiration       = 0,
   $password_max_age = 90,
   $password,
 ) {
@@ -43,6 +44,7 @@ define local_user (
     validate_string($comment)
     validate_array($groups)
     validate_string($password)
+    validate_string($expiration)
     validate_re($password_max_age, '^\d+$')
     validate_string($home)
 
@@ -57,12 +59,12 @@ define local_user (
     }
 
     case $::osfamily {
-      RedHat:  {$action = "/bin/sed -i -e 's/${id}:!!:/${id}:${password}:/g' /etc/shadow; chage -d 0 ${id}"}
-      Debian:  {$action = "/bin/sed -i -e 's/${id}:x:/${id}:${password}:/g' /etc/shadow; chage -d 0 ${id}"}
+      RedHat:  {$action = "/bin/sed -i -e 's/${id}:!!:/${id}:${password}:/g' /etc/shadow; chage -d ${expiration} ${id}"}
+      Debian:  {$action = "/bin/sed -i -e 's/${id}:x:/${id}:${password}:/g' /etc/shadow; chage -d ${expiration} ${id}"}
       default: { }
     }
 
-    exec { $action:
+    exec { "set $name's password":
       path    => '/usr/bin:/usr/sbin:/bin',
       onlyif  => "egrep -q  -e '${id}:!!:' -e '${id}:x:' /etc/shadow",
       require => User[$id]

@@ -37,3 +37,6 @@ values default to /bin/bash, /home/<username>, and 90 days, respectively.
       password         => 'encryptedstring',
       password_max_age => 90,
     }
+
+Note: The encrypted string is processed via sed. You MUST escape any '/'
+characters.
