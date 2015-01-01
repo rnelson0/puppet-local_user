@@ -46,7 +46,7 @@ define local_user (
     validate_array($groups)
     validate_string($password)
     validate_string($last_change)
-    validate_re($password_max_age, '^\d$')
+    validate_re($password_max_age, '^\d+$')
     validate_string($home)
 
     user { $name:
