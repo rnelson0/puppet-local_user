@@ -12,6 +12,7 @@
 #    groups           => ['group1', 'group2'],
 #    password         => 'encryptedstring',
 #    password_max_age => 90,
+#    last_change      => '2015-01-01',
 #  }
 #
 # === Authors
@@ -28,7 +29,7 @@ define local_user (
   $home             = "/home/${name}",
   $comment,
   $groups,
-  $expiration       = 0,
+  $last_change      = 0,
   $password_max_age = 90,
   $password,
 ) {
@@ -44,8 +45,8 @@ define local_user (
     validate_string($comment)
     validate_array($groups)
     validate_string($password)
-    validate_string($expiration)
-    validate_re($password_max_age, '^\d+$')
+    validate_string($last_change)
+    validate_re($password_max_age, '^\d$')
     validate_string($home)
 
     user { $name:
@@ -59,15 +60,16 @@ define local_user (
     }
 
     case $::osfamily {
-      RedHat:  {$action = "/bin/sed -i -e 's/${id}:!!:/${id}:${password}:/g' /etc/shadow; chage -d ${expiration} ${id}"}
-      Debian:  {$action = "/bin/sed -i -e 's/${id}:x:/${id}:${password}:/g' /etc/shadow; chage -d ${expiration} ${id}"}
+      RedHat:  {$action = "/bin/sed -i -e 's/${name}:!!:/${name}:${password}:/g' /etc/shadow; chage -d ${last_change} ${name}"}
+      Debian:  {$action = "/bin/sed -i -e 's/${name}:x:/${name}:${password}:/g' /etc/shadow; chage -d ${last_change} ${name}"}
       default: { }
     }
 
     exec { "set $name's password":
+      command => $action,
       path    => '/usr/bin:/usr/sbin:/bin',
-      onlyif  => "egrep -q  -e '${id}:!!:' -e '${id}:x:' /etc/shadow",
-      require => User[$id]
+      onlyif  => "egrep -q  -e '${name}:!!:' -e '${name}:x:' /etc/shadow",
+      require => User[$name]
     }
   }
 }
