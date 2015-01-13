@@ -25,13 +25,13 @@
 #
 define local_user (
   $state,
-  $shell            = '/bin/bash',
-  $home             = "/home/${name}",
   $comment,
   $groups,
+  $password,
   $last_change      = 0,
   $password_max_age = 90,
-  $password,
+  $shell            = '/bin/bash',
+  $home             = "/home/${name}",
 ) {
   validate_string($name)
   validate_string($state)
@@ -60,12 +60,16 @@ define local_user (
     }
 
     case $::osfamily {
-      RedHat:  {$action = "/bin/sed -i -e 's/${name}:!!:/${name}:${password}:/g' /etc/shadow; chage -d ${last_change} ${name}"}
-      Debian:  {$action = "/bin/sed -i -e 's/${name}:x:/${name}:${password}:/g' /etc/shadow; chage -d ${last_change} ${name}"}
+      RedHat:  {
+        $action = "/bin/sed -i -e 's/${name}:!!:/${name}:${password}:/g' /etc/shadow; chage -d ${last_change} ${name}"
+      }
+      Debian:  {
+        $action = "/bin/sed -i -e 's/${name}:x:/${name}:${password}:/g' /etc/shadow; chage -d ${last_change} ${name}"
+      }
       default: { }
     }
 
-    exec { "set $name's password":
+    exec { "set ${name}'s password":
       command => $action,
       path    => '/usr/bin:/usr/sbin:/bin',
       onlyif  => "egrep -q  -e '${name}:!!:' -e '${name}:x:' /etc/shadow",
