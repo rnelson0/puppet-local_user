@@ -5,14 +5,15 @@
 # === Examples
 #
 #  local_user { 'username':
-#    state            => 'present',
-#    shell            => '/bin/bash',
-#    home             => '/home/username',
-#    comment          => 'Real Name',
-#    groups           => ['group1', 'group2'],
-#    password         => 'encryptedstring',
-#    password_max_age => 90,
-#    last_change      => '2015-01-01',
+#    state               => 'present',
+#    shell               => '/bin/bash',
+#    home                => '/home/username',
+#    comment             => 'Real Name',
+#    groups              => ['group1', 'group2'],
+#    password            => 'encryptedstring',
+#    password_max_age    => 90,
+#    last_change         => '2015-01-01',
+#    ssh_authorized_keys => ['ssh-rsa AAAA...123 user@host'],
 #  }
 #
 # === Authors
@@ -28,10 +29,11 @@ define local_user (
   $comment,
   $groups,
   $password,
-  $last_change      = 0,
-  $password_max_age = 90,
-  $shell            = '/bin/bash',
-  $home             = "/home/${name}",
+  $last_change         = 0,
+  $password_max_age    = 90,
+  $shell               = '/bin/bash',
+  $home                = "/home/${name}",
+  $ssh_authorized_keys = [],
 ) {
   validate_string($name)
   validate_string($state)
@@ -58,6 +60,12 @@ define local_user (
       groups           => $groups,
       password_max_age => $password_max_age,
     }
+    if ($ssh_authorized_keys) {
+      local_user::ssh_authorized_keys{$ssh_authorized_keys:
+        user => $name,
+      }
+      User[$name] -> Local_user::Ssh_authorized_keys[$ssh_authorized_keys]
+    }
 
     case $::osfamily {
       RedHat:  {
@@ -76,4 +84,5 @@ define local_user (
       require => User[$name]
     }
   }
+
 }
