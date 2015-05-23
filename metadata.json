@@ -1,6 +1,6 @@
 {
   "name": "rnelson0-local_user",
-  "version": "0.9.4",
+  "version": "1.0.0",
   "author": "Rob Nelson",
   "summary": "Manage local users, setting an initial password and letting the user manage it as needed afterward.",
   "license": "Apache Version 2.0",
