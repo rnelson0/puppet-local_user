@@ -3,7 +3,7 @@
   "version": "1.0.1",
   "author": "Rob Nelson",
   "summary": "Manage local users, setting an initial password and letting the user manage it as needed afterward.",
-  "license": "Apache Version 2.0",
+  "license": "Apache-2.0",
   "source": "https://github.com/rnelson0/puppet-local_user",
   "project_page": "https://github.com/rnelson0/puppet-local_user",
   "issues_url": "https://github.com/rnelson0/puppet-local_user/issues",
