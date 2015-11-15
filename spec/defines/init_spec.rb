@@ -1,5 +1,5 @@
 require 'spec_helper'
-describe 'local_user' do
+describe 'local_user', :type => :define do
   let (:title) { 'rnelson0' }
   let (:params) do
   {

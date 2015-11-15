@@ -1,5 +1,5 @@
 require 'spec_helper'
-describe 'local_user::ssh_authorized_keys' do
+describe 'local_user::ssh_authorized_keys', :type => :define do
   let (:title) { 'ssh-rsa AAAA...zwE1 rsa-key-20141029' }
   let (:params) do
   {
