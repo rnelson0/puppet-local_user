@@ -478,7 +478,8 @@ Style/IfWithSemicolon:
 
 Style/Encoding:
   Enabled: false
-Style/BlockDelimiters:  Enabled: FalseStyle/MultilineBlockLayout:  Enabled: FalseStyle/BlockDelimiters:
+
+Style/BlockDelimiters:
   Enabled: False
 
 Style/MultilineBlockLayout:
