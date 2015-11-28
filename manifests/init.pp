@@ -29,11 +29,13 @@ define local_user (
   $comment,
   $groups,
   $password,
+  $uid                 = undef,
   $last_change         = 0,
   $password_max_age    = 90,
   $shell               = '/bin/bash',
   $home                = "/home/${name}",
   $ssh_authorized_keys = [],
+
 ) {
   validate_string($name)
   validate_string($state)
@@ -50,7 +52,9 @@ define local_user (
     validate_integer($last_change)
     validate_integer($password_max_age)
     validate_string($home)
-
+    if ($uid) {
+      validate_integer($uid)
+    }
     user { $name:
       ensure           => $state,
       shell            => $shell,
@@ -59,6 +63,7 @@ define local_user (
       managehome       => true,
       groups           => $groups,
       password_max_age => $password_max_age,
+      uid              => $uid,
     }
     if ($ssh_authorized_keys) {
       local_user::ssh_authorized_keys{$ssh_authorized_keys:
