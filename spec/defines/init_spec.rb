@@ -31,6 +31,7 @@ describe 'local_user', :type => :define do
       :password            => 'encryptedstring',
       :password_max_age    => 120,
       :ssh_authorized_keys => ['ssh-rsa AAAA...zwE1 rsa-key-20141029'],
+      :uid                 => 101,
     }
     end
 
@@ -40,6 +41,7 @@ describe 'local_user', :type => :define do
       :home             => '/nfshome/rnelson0',
       :groups           => ['group1', 'group2'],
       :password_max_age => 120,
+      :uid              => 101,
     }) }
     it { is_expected.to create_local_user__ssh_authorized_keys('ssh-rsa AAAA...zwE1 rsa-key-20141029') }
   end
