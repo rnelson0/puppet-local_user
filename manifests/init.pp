@@ -10,6 +10,7 @@
 #    home                => '/home/username',
 #    comment             => 'Real Name',
 #    groups              => ['group1', 'group2'],
+#    uid                 => 2001,
 #    password            => 'encryptedstring',
 #    password_max_age    => 90,
 #    last_change         => '2015-01-01',
@@ -35,7 +36,6 @@ define local_user (
   $shell               = '/bin/bash',
   $home                = "/home/${name}",
   $ssh_authorized_keys = [],
-
 ) {
   validate_string($name)
   validate_string($state)
