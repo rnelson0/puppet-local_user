@@ -35,7 +35,7 @@ define local_user (
   $password_max_age    = 90,
   $shell               = '/bin/bash',
   $home                = "/home/${name}",
-  $managehome          = true
+  $managehome          = true,
   $ssh_authorized_keys = [],
 ) {
   validate_string($name)
