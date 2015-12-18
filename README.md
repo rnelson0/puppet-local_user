@@ -42,6 +42,7 @@ default to /bin/bash, /home/<username>, 90 days, 0 days, and null, respectively.
       managehome       => true,
       comment          => 'Real Name',
       groups           => ['group1', 'group2'],
+      gid              => 'primary_group'
       last_change      => '2015-01-01',
       password         => 'encryptedstring',
       password_max_age => 90,
