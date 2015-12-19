@@ -50,8 +50,8 @@ define local_user (
     validate_string($comment)
     validate_array($groups)
     validate_string($password)
-    validate_integer($last_change)
-    str2bool($managehome)
+    validate_bool($managehome)
+    validate_re("${last_change}", '^(\d+|\d+-\d+-\d+)$') #lint:ignore:only_variable_string
     validate_integer($password_max_age)
     validate_string($home)
     if ($uid) {
