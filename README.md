@@ -37,6 +37,7 @@ default to /bin/bash, /home/<username>, 90 days, 0 days, and null, respectively.
       state            => 'present',
       shell            => '/bin/bash',
       home             => '/home/username',
+      managehome       => true,
       comment          => 'Real Name',
       groups           => ['group1', 'group2'],
       last_change      => '2015-01-01',
