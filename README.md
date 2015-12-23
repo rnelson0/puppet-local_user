@@ -1,5 +1,6 @@
 # local_user
 
+[![Stories in Ready](https://badge.waffle.io/rnelson0/puppet-modules.svg?label=ready&title=Ready)](http://waffle.io/rnelson0/puppet-modules)
 [![Build Status](https://travis-ci.org/rnelson0/puppet-local_user.png?branch=master)](https://travis-ci.org/rnelson0/puppet-local_user)
 [![Puppet Forge](http://img.shields.io/puppetforge/v/rnelson0/local_user.svg)](https://forge.puppetlabs.com/rnelson0/local_user)
 [![Puppet Forge Downloads](http://img.shields.io/puppetforge/dt/rnelson0/local_user.svg)](https://forge.puppetlabs.com/rnelson0/local_user)
@@ -48,4 +49,3 @@ default to /bin/bash, /home/<username>, 90 days, 0 days, and null, respectively.
 
 Note: The encrypted string is processed via sed using '/' seperators. You MUST
 escape any '/' characters.
-
