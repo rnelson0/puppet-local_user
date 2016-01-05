@@ -31,6 +31,7 @@ define local_user (
   $groups,
   $password,
   $uid                 = undef,
+  $gid                 = $name,
   $last_change         = 0,
   $password_max_age    = 90,
   $shell               = '/bin/bash',
@@ -54,6 +55,7 @@ define local_user (
     validate_re("${last_change}", '^(\d+|\d+-\d+-\d+)$') #lint:ignore:only_variable_string
     validate_integer($password_max_age)
     validate_string($home)
+    validate_string($gid)
     if ($uid) {
       validate_integer($uid)
     }
@@ -66,6 +68,7 @@ define local_user (
       groups           => $groups,
       password_max_age => $password_max_age,
       uid              => $uid,
+      gid              => $gid,
     }
     if ($ssh_authorized_keys) {
       local_user::ssh_authorized_keys{$ssh_authorized_keys:
