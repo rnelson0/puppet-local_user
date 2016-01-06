@@ -4,7 +4,6 @@ describe 'local_user', :type => :define do
   let (:params) do
     {
       :state    => 'present',
-      :comment  => 'Rob Nelson',
       :groups   => ['group1', 'group2'],
       :password => 'encryptedstring',
     }
@@ -12,7 +11,7 @@ describe 'local_user', :type => :define do
 
   context 'using minimum params' do
     it { is_expected.to create_user('rnelson0').with({
-      :comment          => 'Rob Nelson',
+      :comment          => 'rnelson0',
       :shell            => '/bin/bash',
       :home             => '/home/rnelson0',
       :groups           => ['group1', 'group2'],

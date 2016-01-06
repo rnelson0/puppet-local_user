@@ -28,9 +28,9 @@
 #
 define local_user (
   $state,
-  $comment,
   $groups,
   $password,
+  $comment             = $name,
   $uid                 = undef,
   $gid                 = $name,
   $last_change         = 0,
