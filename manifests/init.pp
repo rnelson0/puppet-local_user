@@ -15,6 +15,7 @@
 #    password_max_age    => 90,
 #    last_change         => '2015-01-01',
 #    ssh_authorized_keys => ['ssh-rsa AAAA...123 user@host'],
+#    manage_groups       => true,
 #  }
 #
 # === Authors
@@ -38,6 +39,7 @@ define local_user (
   $home                = "/home/${name}",
   $managehome          = true,
   $ssh_authorized_keys = [],
+  $manage_groups       = false,
 ) {
   validate_string($name)
   validate_string($state)
@@ -58,6 +60,13 @@ define local_user (
     validate_string($gid)
     if ($uid) {
       validate_integer($uid)
+    }
+    if ($manage_groups) {
+      $managed_groups = [$groups, $gid]
+      group { $managed_groups:
+        ensure => present,
+        before => User[$name],
+      }
     }
     user { $name:
       ensure           => $state,
