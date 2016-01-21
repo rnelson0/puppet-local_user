@@ -25,12 +25,18 @@ exclude_paths = [
   "spec/**/*",
 ]
 
+# Coverage from puppetlabs-spec-helper requires rcov which
+# doesn't work in anything since 1.8.7
+Rake::Task[:coverage].clear
+
 Rake::Task[:lint].clear
 
 PuppetLint.configuration.relative = true
 PuppetLint.configuration.disable_80chars
 PuppetLint.configuration.disable_class_inherits_from_params_class
 PuppetLint.configuration.disable_class_parameter_defaults
+PuppetLint.configuration.disable_documentation
+PuppetLint.configuration.disable_single_quote_string_with_variables
 PuppetLint.configuration.fail_on_warnings = true
 
 PuppetLint::RakeTask.new :lint do |config|
