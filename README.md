@@ -10,6 +10,10 @@
 
 1. [Overview](#overview)
 2. [Usage - Configuration options and additional functionality](#usage)
+    * [Resource Definition](#resource-definition)
+    * [Via Hiera](#via-hiera)
+3. [Caveats](#caveats)
+
 
 ## Overview
 
@@ -20,6 +24,8 @@ creates will have. This allows users to maintain their own passwords after
 creation.
 
 ## Usage
+
+### Resource Definition
 
 Create a local user by providing at a minimum the user name, state, comment,
 groups, and initial password:
@@ -43,17 +49,60 @@ default to /bin/bash, /home/<username>, 90 days, 0 days, and null, respectively.
       comment          => 'Rob Nelson',
       groups           => ['rnelson0', 'wheel'],
       gid              => 'rnelson0'
+      manage_groups    => true,
       last_change      => '2015-01-01',
       password         => 'encryptedstring',
-      password_max_age => 90,
+      password_max_age => 1000,
       ssh_authorized_keys => ['ssh-rsa AAAA...123 user@host'],
     }
 
-Note: The encrypted string is processed via sed using '/' seperators. You MUST
-escape any '/' characters.
+### Via Hiera
 
-If the specified groups do not exist and or not created elsewhere in your catalog (or ordered incorrectly), you will receive errors preventing the user from being created.
+You can also store your user information in hiera and use the `create_resources()` function to create the users. The user(s) can be defined in the appropriate level(s) of your hierarchy, for example at the least-specific level, `global.yaml`:
 
-    Error: Could not create user rnelson0: Execution of '/usr/sbin/useradd -c Rob Nelson -g rnelson0 -G wheel -d /home/rnelson0 -s /bin/bash -m rnelson0' returned 6: useradd: group 'rnelson0' does not exist
+````
+# global.yaml
+---
+local_users:
+  rnelson0:
+    state:            'present'
+    home:             '/home/rnelson0'
+    managehome:       true
+    comment:          'Rob Nelson'
+    groups:
+      - 'rnelson0'
+      - 'wheel'
+    git:              'rnelson0'
+    manage_groups:    true
+    last_change:      '2015-01-01'
+    password:         'encryptedstring'
+    password_max_age: '1000'
+    ssh_authorized_keys:
+      - 'ssh-rsa AAAA...123 user@host'
+````
 
-Set the parameter `manage_groups` to `true` and the groups will be managed and ordered within `local_user`.
+Add code similar to the following black to a common class, such as `profile::base`. The result of the hiera lookup for `local_users`, using your hiera merge strategy, will be discovered and added to the node's manifest.
+
+````
+# profile/manifests/base.pp
+class profile::base {
+  # Your base profile goes here
+
+  $local_users = hiera('local_users', undef)
+  if ($local_users) {
+    create_resources('local_user', $local_users)
+  }
+}
+````
+
+This example is functionally equivalent to the second [Resource Definition](#resource-definition) example.
+
+## Caveats
+
+The encrypted string is processed via sed using '/' seperators. You MUST escape any '/' characters.
+
+If the specified groups do not exist and or not created elsewhere in your catalog (or ordered incorrectly), you will receive errors preventing the user from being created. Set the parameter `manage_groups` to `true` and the groups will be managed and ordered within `local_user`.
+
+    Error: Could not create user rnelson0: Execution of '/usr/sbin/useradd -c Rob Nelson -g rnelson0 -G wheel
+    -d /home/rnelson0 -s /bin/bash -m rnelson0' returned 6: useradd: group 'rnelson0' does not exist
+
