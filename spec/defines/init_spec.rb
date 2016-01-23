@@ -19,6 +19,7 @@ describe 'local_user', :type => :define do
       :password_max_age => 90,
     }) }
     it { is_expected.not_to create_group('rnelson0') }
+    it { is_expected.to create_exec("set rnelson0's password") }
   end
 
   context 'managing groups' do

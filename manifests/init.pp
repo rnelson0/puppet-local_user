@@ -88,10 +88,10 @@ define local_user (
 
     case $::osfamily {
       'RedHat':  {
-        $action = "/bin/sed -i -e 's/${name}:!!:/${name}:${password}:/g' /etc/shadow; chage -d ${last_change} ${name}"
+        $action = "/bin/sed -i -e 's/^${name}:!!:/${name}:${password}:/g' /etc/shadow; chage -d ${last_change} ${name}"
       }
       'Debian':  {
-        $action = "/bin/sed -i -e 's/${name}:x:/${name}:${password}:/g' /etc/shadow; chage -d ${last_change} ${name}"
+        $action = "/bin/sed -i -e 's/^${name}:x:/${name}:${password}:/g' /etc/shadow; chage -d ${last_change} ${name}"
       }
       default: { }
     }
@@ -99,7 +99,7 @@ define local_user (
     exec { "set ${name}'s password":
       command => $action,
       path    => '/usr/bin:/usr/sbin:/bin',
-      onlyif  => "egrep -q  -e '${name}:!!:' -e '${name}:x:' /etc/shadow",
+      onlyif  => "egrep -q -e '^${name}:!!:' -e '^${name}:x:' /etc/shadow",
       require => User[$name],
     }
   }
