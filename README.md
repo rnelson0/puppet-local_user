@@ -12,7 +12,7 @@
 2. [Usage - Configuration options and additional functionality](#usage)
     * [Resource Definition](#resource-definition)
     * [Via Hiera](#via-hiera)
-3. [Caveats](#caveats)
+3. [Caveats and Clarifications](#caveats-and-clarifications)
 
 
 ## Overview
@@ -96,11 +96,14 @@ class profile::base {
 
 This example is functionally equivalent to the second [Resource Definition](#resource-definition) example.
 
-## Caveats
+## Caveats and Clarifications
 
-The encrypted string is processed via sed using '/' seperators. You MUST escape any '/' characters.
+* When no `$comment` is provided, the comment field will contain the username.
 
-If the specified groups do not exist and or not created elsewhere in your catalog (or ordered incorrectly), you will receive errors preventing the user from being created. Set the parameter `manage_groups` to `true` and the groups will be managed and ordered within `local_user`.
+* The encrypted string is processed via sed using '/' seperators. You MUST escape any '/' characters.
 
-    Error: Could not create user rnelson0: Execution of '/usr/sbin/useradd -c Rob Nelson -g rnelson0 -G wheel
-    -d /home/rnelson0 -s /bin/bash -m rnelson0' returned 6: useradd: group 'rnelson0' does not exist
+* If the specified groups do not exist and or not created elsewhere in your catalog (or ordered incorrectly), you will receive errors preventing the user from being created. Set the parameter `manage_groups` to `true` and the groups will be managed and ordered within `local_user`. The error looks like:
+````
+Error: Could not create user rnelson0: Execution of '/usr/sbin/useradd -c Rob Nelson -g rnelson0 -G wheel
+-d /home/rnelson0 -s /bin/bash -m rnelson0' returned 6: useradd: group 'rnelson0' does not exist
+````
