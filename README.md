@@ -27,13 +27,12 @@ creation.
 
 ### Resource Definition
 
-Create a local user by providing at a minimum the user name, state, comment,
+Create a local user by providing at a minimum the user name, state,
 groups, and initial password:
 
     local_user { 'rnelson':
       state            => 'present',
-      comment          => 'Rob Nelson',
-      groups           => ['rnelson0', 'wheel'],
+      groups           => ['group1', 'group2'],
       password         => 'encryptedstring',
     }
 
@@ -105,4 +104,3 @@ If the specified groups do not exist and or not created elsewhere in your catalo
 
     Error: Could not create user rnelson0: Execution of '/usr/sbin/useradd -c Rob Nelson -g rnelson0 -G wheel
     -d /home/rnelson0 -s /bin/bash -m rnelson0' returned 6: useradd: group 'rnelson0' does not exist
-
