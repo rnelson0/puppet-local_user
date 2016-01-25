@@ -1,0 +1,8 @@
+## Release 1.0.7
+
+* Added a changelog.
+* Re-formated the readme for easier reading.
+* The `$comment` parameter of `local_user` has been made optional.
+* User password regex identifies users by the whole name rather than accepting partial matches.
+* The Travis CI test matrix was reduced to Ruby 1.9.3/2.10 and the latest Puppet 3/4 versions, and other minor improvements.
+* The readme now provides an example of using `local_user` with hiera data.
