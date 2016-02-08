@@ -71,7 +71,7 @@ local_users:
     groups:
       - 'rnelson0'
       - 'wheel'
-    git:              'rnelson0'
+    gid:              'rnelson0'
     manage_groups:    true
     last_change:      '2015-01-01'
     password:         'encryptedstring'
