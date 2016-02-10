@@ -61,13 +61,24 @@ define local_user (
     if ($uid) {
       validate_integer($uid)
     }
-    if ($manage_groups) {
-      $managed_groups = [$groups, $gid]
+
+    case $manage_groups {
+      true:  {
+        $managed_groups = [$groups, $gid]
+      }
+      'primary','gid':  {
+        $managed_groups = [$gid]
+      }
+      default: { }
+    }
+
+    if ($managed_groups) {
       group { $managed_groups:
         ensure => present,
         before => User[$name],
       }
     }
+    
     user { $name:
       ensure           => $state,
       shell            => $shell,
