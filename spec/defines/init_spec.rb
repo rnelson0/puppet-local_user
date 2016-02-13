@@ -9,6 +9,12 @@ describe 'local_user', :type => :define do
     }
   end
 
+  let (:facts) do 
+    {
+      :osfamily => 'Debian',
+    }
+  end
+
   context 'using minimum params' do
     it { is_expected.to create_user('rnelson0').with({
       :comment          => 'rnelson0',
@@ -21,7 +27,7 @@ describe 'local_user', :type => :define do
     it { is_expected.to create_exec("set rnelson0's password") }
   end
 
-  context 'managing groups' do
+  context 'managing all groups' do
     let (:params) do
       {
         :state         => 'present',
@@ -39,6 +45,58 @@ describe 'local_user', :type => :define do
     it { is_expected.to create_group('rnelson0') }
     it { is_expected.to create_group('group1') }
     it { is_expected.to create_group('group2') }
+  end
+
+  context 'managing gid only' do
+    let (:params) do
+      {
+        :state         => 'present',
+        :comment       => 'Rob Nelson',
+        :groups        => ['group1', 'group2'],
+        :password      => 'encryptedstring',
+        :manage_groups => 'gid',
+      }
+  end
+
+    it { is_expected.to create_user('rnelson0').with({
+      :comment          => 'Rob Nelson',
+      :groups           => ['group1', 'group2'],
+    }) }
+    it { is_expected.to create_group('rnelson0') }
+    it { is_expected.not_to create_group('group1') }
+    it { is_expected.not_to create_group('group2') }
+  end
+
+context 'set manage_groups to false' do
+    let (:params) do
+      {
+        :state          => 'present',
+        :groups         => ['group1','group2'],
+        :password       => 'encryptedstring',
+        :manage_groups  => false,
+      }
+    end
+    it { is_expected.to create_user('rnelson0').with({
+      :comment          => 'rnelson0',
+      :groups           => ['group1', 'group2'],
+      :password_max_age => 90,
+    }) }
+    it { is_expected.not_to create_group('rnelson0') }
+    it { is_expected.not_to create_group('group1') }
+    it { is_expected.not_to create_group('group2') }
+end
+context 'manage_groups with invalid input' do
+    let (:params) do
+      {
+        :state         => 'present',
+        :comment       => 'Rob Nelson',
+        :groups        => ['group1', 'group2'],
+        :password      => 'encryptedstring',
+        :manage_groups => 'foo',
+      }
+  end
+  
+    it { is_expected.to raise_error(Puppet::Error) }
   end
 
   context 'using full params' do
