@@ -55,6 +55,19 @@ default to /bin/bash, /home/<username>, 90 days, 0 days, and null, respectively.
       ssh_authorized_keys => ['ssh-rsa AAAA...123 user@host'],
     }
 
+Starting with v1.0.8, a new `local_user::windows` type is available.
+The user can be given access to the administrator or remote desktop user groups with the parameters `$admin` (default false) and `$allow_rdp` (default true).
+It shares the common parameters of `$state`, `$password`, `$groups`, and `$comment`.
+Unlike the unix version of `local_user`, the password is unencrypted and will be reset on every run.
+
+    local_user::windows { 'bob' :
+      state     => present,
+      password  => 'Bobbo1234',
+      groups    => ['Administrators'],
+      comment   => 'Bob is Cool',
+      allow_rdp => true,
+    }
+
 ### Via Hiera
 
 You can also store your user information in hiera and use the `create_resources()` function to create the users. The user(s) can be defined in the appropriate level(s) of your hierarchy, for example at the least-specific level, `global.yaml`:
