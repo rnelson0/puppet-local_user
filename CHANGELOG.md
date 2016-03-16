@@ -1,3 +1,8 @@
+## Release 1.0.8
+
+* `$manage_group` option `primary`|`gid` added, to only managed the user's group ([bbriggs](https://github.com/bbrigs))
+* New type `local_user::windows` ([matthewrstone](https://github.com/matthewrstone))
+
 ## Release 1.0.7
 
 * Added a changelog.
