@@ -10,6 +10,7 @@ group :test do
   gem "rspec-puppet-facts"
   gem 'simplecov'
   gem 'simplecov-console'
+  gem "parallel_tests"
 
   gem "puppet-lint-absolute_classname-check"
   gem "puppet-lint-leading_zero-check"
