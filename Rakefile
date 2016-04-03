@@ -7,6 +7,8 @@ require 'puppet/vendor/semantic/lib/semantic' unless Puppet.version.to_f < 3.6
 require 'puppet-lint/tasks/puppet-lint'
 require 'puppet-syntax/tasks/puppet-syntax'
 require 'metadata-json-lint/rake_task'
+require 'parallel_tests'
+require 'parallel_tests/cli'
 
 # These gems aren't always present, for instance
 # on Travis with --without development
@@ -29,6 +31,7 @@ Rake::Task[:coverage].clear
 Rake::Task[:lint].clear
 
 PuppetLint.configuration.relative = true
+PuppetLint.configuration.disable_arrow_alignment
 PuppetLint.configuration.disable_80chars
 PuppetLint.configuration.disable_class_inherits_from_params_class
 PuppetLint.configuration.disable_class_parameter_defaults
@@ -50,6 +53,13 @@ end
 desc "Populate CONTRIBUTORS file"
 task :contributors do
   system("git log --format='%aN' | sort -u > CONTRIBUTORS")
+end
+
+desc "Parallel spec tests"
+task :parallel_spec do
+  Rake::Task[:spec_prep].invoke
+  ParallelTests::CLI.new.run('--type test -t rspec spec/classes spec/defines spec/unit spec/functions'.split)
+  Rake::Task[:spec_clean].invoke
 end
 
 desc "Run syntax, lint, and spec tests."
