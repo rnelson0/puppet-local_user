@@ -21,6 +21,13 @@
     }
   ],
   "operatingsystem_support": [
+      {
+          "operatingsystem": "FreeBSD",
+          "operatingsystemrelease": [
+              "10",
+              "9"
+          ]
+      },
     {
       "operatingsystem": "RedHat",
       "operatingsystemrelease": [
@@ -40,6 +47,14 @@
       "operatingsystemrelease": [
         "7"
       ]
+    },
+    {
+        "operatingsystem": "windows",
+        "operatingsystemrelease": [
+            "2008R2",
+            "2012",
+            "2012R2"
+        ]
     }
   ]
 }
