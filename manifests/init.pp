@@ -108,9 +108,17 @@ define local_user (
         $action = "/bin/sed -i -e 's/^${name}:!!:/${name}:${password}:/g' /etc/shadow; chage -d ${last_change} ${name}"
       }
       'Debian':  {
-        $action = "/bin/sed -i -e 's/^${name}:x:/${name}:${password}:/g' /etc/shadow; chage -d ${last_change} ${name}"
+        case $::operatingsystemmajrelease {
+          7 : {
+            $action = "/bin/sed -i -e 's/^${name}:x:/${name}:${password}:/g' /etc/shadow; chage -d ${last_change} ${name}"
+          }
+          8 : {
+            $action = "/bin/sed -i -e 's/^${name}:!:/${name}:${password}:/g' /etc/shadow; chage -d ${last_change} ${name}"
+          }
+          default: { fail("Debian ${::operatingsystemmajrelease} is unsupported.") }
+        }
       }
-      default: { }
+      default: { fail("${::osfamily} is unsupported.") }
     }
 
     exec { "set ${name}'s password":

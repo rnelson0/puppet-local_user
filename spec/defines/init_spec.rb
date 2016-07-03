@@ -12,6 +12,7 @@ describe 'local_user', :type => :define do
   let (:facts) do 
     {
       :osfamily => 'Debian',
+      :operatingsystemmajrelease => 7,
     }
   end
 
