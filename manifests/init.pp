@@ -84,7 +84,7 @@ define local_user (
         }
       }
     }
-    
+
     user { $name:
       ensure           => $state,
       shell            => $shell,

@@ -8,7 +8,10 @@
   "project_page": "https://github.com/rnelson0/puppet-local_user",
   "issues_url": "https://github.com/rnelson0/puppet-local_user/issues",
   "dependencies": [
-
+    {
+      "name": "puppetlabs/stdlib",
+      "version_range": ">= 4.0.0"
+    }
   ],
   "requirements": [
     {

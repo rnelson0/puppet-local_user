@@ -96,6 +96,7 @@ local_users:
 Add code similar to the following black to a common class, such as `profile::base`. The result of the hiera lookup for `local_users`, using your hiera merge strategy, will be discovered and added to the node's manifest.
 
 ````
+# Puppet 3
 # profile/manifests/base.pp
 class profile::base {
   # Your base profile goes here
@@ -105,6 +106,25 @@ class profile::base {
     create_resources('local_user', $local_users)
   }
 }
+````
+
+````
+# Puppet 4
+class profile::base {
+  # Your base profile goes here
+
+  $user_defaults = {
+    state => 'present',
+  }
+  $local_users = hiera('local_users', undef)
+  $local_users.each |$user, $attributes| {
+    local_user{ 
+      default:
+        * => $user_defaults;
+      $user:
+        * => $attributes,
+    }
+  }
 ````
 
 This example is functionally equivalent to the second [Resource Definition](#resource-definition) example.
