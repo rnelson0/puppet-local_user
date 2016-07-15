@@ -47,7 +47,7 @@ define local_user::windows (
   if $admin == false and $allow_rdp == false {
     $group_array = []
   }
-  
+
   $grouplist = concat($groups,$group_array)
 
   user { $name:
