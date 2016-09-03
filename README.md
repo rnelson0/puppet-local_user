@@ -133,8 +133,6 @@ This example is functionally equivalent to the second [Resource Definition](#res
 
 * When no `$comment` is provided, the comment field will contain the username.
 
-* The encrypted string is processed via sed using '/' seperators. You MUST escape any '/' characters.
-
 * If the specified groups do not exist and or not created elsewhere in your catalog (or ordered incorrectly), you will receive errors preventing the user from being created. Set the parameter `manage_groups` to `true` and the groups will be managed and ordered within `local_user`. The error looks like:
 ````
 Error: Could not create user rnelson0: Execution of '/usr/sbin/useradd -c Rob Nelson -g rnelson0 -G wheel
