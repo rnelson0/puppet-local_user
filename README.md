@@ -140,3 +140,5 @@ This example is functionally equivalent to the second [Resource Definition](#res
 Error: Could not create user rnelson0: Execution of '/usr/sbin/useradd -c Rob Nelson -g rnelson0 -G wheel
 -d /home/rnelson0 -s /bin/bash -m rnelson0' returned 6: useradd: group 'rnelson0' does not exist
 ````
+
+* The 'password' parameter on FreeBSD is not yet implemented. Supplying a password will have no effect on FreeBSD systems.

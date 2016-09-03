@@ -2,8 +2,8 @@
 #
 # DESCRIPTION:
 # WIP - Allows you to set local users and RDP access via Puppet (for now...)
-#  
-# USAGE: 
+#
+# USAGE:
 # local_user::windows { 'steve' :
 #   state     => present|absent, # currently set to present or absent
 #   password  => <your password>, # a plain text password
