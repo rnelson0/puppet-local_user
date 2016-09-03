@@ -10,7 +10,7 @@ if Facter.value(:kernel) == 'Linux'
 
     mutex.synchronize do
       # Add user to list only if the user is not an essential system user ...
-      users << user.name unless instance[user.property(:uid)].to_i < 1000
+      users << user.name
     end
   end
 
