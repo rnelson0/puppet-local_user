@@ -40,6 +40,7 @@ define local_user (
   $managehome          = true,
   $ssh_authorized_keys = [],
   $manage_groups       = false,
+  $system              = false,
 ) {
   validate_string($name)
   validate_string($state)
@@ -58,6 +59,7 @@ define local_user (
     validate_integer($password_max_age)
     validate_string($home)
     validate_string($gid)
+    validate_bool($system)
     if ($uid) {
       validate_integer($uid)
     }
@@ -95,6 +97,7 @@ define local_user (
       password_max_age => $password_max_age,
       uid              => $uid,
       gid              => $gid,
+      system           => $system,
     }
     if ($ssh_authorized_keys) {
       local_user::ssh_authorized_keys{$ssh_authorized_keys:

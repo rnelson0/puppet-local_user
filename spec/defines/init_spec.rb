@@ -9,7 +9,7 @@ describe 'local_user', :type => :define do
     }
   end
 
-  let (:facts) do 
+  let (:facts) do
     {
       :osfamily => 'Debian',
     }
@@ -112,6 +112,7 @@ context 'manage_groups with invalid input' do
         :ssh_authorized_keys => ['ssh-rsa AAAA...zwE1 rsa-key-20141029'],
         :uid                 => 101,
         :gid                 => 'group2',
+        :system              => true,
       }
     end
 
@@ -122,6 +123,7 @@ context 'manage_groups with invalid input' do
       :groups           => ['group1', 'group2'],
       :password_max_age => 120,
       :uid              => 101,
+      :system           => true
     }) }
     it { is_expected.to create_local_user__ssh_authorized_keys('ssh-rsa AAAA...zwE1 rsa-key-20141029') }
     it { is_expected.not_to create_group('rnelson0') }
