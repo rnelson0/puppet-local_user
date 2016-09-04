@@ -68,7 +68,7 @@ define local_user (
       #Set groups to check for
       case $manage_groups {
         true, 'enabled':  {
-          $managed_groups = [$groups, $gid]
+          $managed_groups = unique([$groups, $gid])
         }
         'primary','gid':  {
           $managed_groups = [$gid]
