@@ -5,7 +5,7 @@ describe 'local_user', :type => :define do
     {
       :state    => 'present',
       :groups   => ['group1', 'group2'],
-#      :password => 'encryptedstring',
+      :password => 'encryptedstring',
     }
   end
 
@@ -23,7 +23,7 @@ describe 'local_user', :type => :define do
       :home             => '/home/rnelson0',
       :groups           => ['group1', 'group2'],
       :password_max_age => 90,
-      :password         => '*',
+      :password         => 'encryptedstring',
     }) }
     it { is_expected.not_to create_group('rnelson0') }
   end

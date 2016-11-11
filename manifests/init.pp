@@ -29,7 +29,7 @@
 define local_user (
   $state,
   $groups,
-  $password            = '*',
+  $password,
   $comment             = $name,
   $uid                 = undef,
   $gid                 = $name,
