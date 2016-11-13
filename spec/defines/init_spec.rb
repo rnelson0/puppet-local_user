@@ -11,7 +11,8 @@ describe 'local_user', :type => :define do
 
   let (:facts) do
     {
-      :osfamily => 'Debian',
+      :osfamily    => 'Debian',
+      :linux_users => ['nobody'],
     }
   end
 
@@ -22,9 +23,9 @@ describe 'local_user', :type => :define do
       :home             => '/home/rnelson0',
       :groups           => ['group1', 'group2'],
       :password_max_age => 90,
+      :password         => 'encryptedstring',
     }) }
     it { is_expected.not_to create_group('rnelson0') }
-    it { is_expected.to create_exec("set rnelson0's password") }
   end
 
   context 'managing all groups' do
@@ -122,6 +123,7 @@ context 'manage_groups with invalid input' do
       :home             => '/nfshome/rnelson0',
       :groups           => ['group1', 'group2'],
       :password_max_age => 120,
+      :password         => 'encryptedstring',
       :uid              => 101,
       :system           => true
     }) }
