@@ -4,7 +4,7 @@
 [![Puppet Forge](http://img.shields.io/puppetforge/v/rnelson0/local_user.svg)](https://forge.puppetlabs.com/rnelson0/local_user)
 [![Puppet Forge Downloads](http://img.shields.io/puppetforge/dt/rnelson0/local_user.svg)](https://forge.puppetlabs.com/rnelson0/local_user)
 [![Stories in Ready](https://badge.waffle.io/rnelson0/puppet-local_user.svg?label=ready&title=Ready)](http://waffle.io/rnelson0/puppet-modules)
-[![Stories In Progress](https://badge.waffle.io/rnelson0/puppet-local_user.svg?label=in progress&title=In Progress)](http://waffle.io/rnelson0/puppet-modules)
+[![Stories In Progress](https://badge.waffle.io/rnelson0/puppet-local_user.svg?label=in%20progress&title=In%20Progress)](http://waffle.io/rnelson0/puppet-modules)
 
 #### Table of Contents
 
