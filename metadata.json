@@ -10,13 +10,13 @@
   "dependencies": [
     {
       "name": "puppetlabs/stdlib",
-      "version_range": ">= 4.0.0 < 5.0.0"
+      "version_requirement": ">= 4.0.0 < 5.0.0"
     }
   ],
   "requirements": [
     {
       "name": "pe",
-      "version_requirement": ">= 3.7.0 < 2015.4.0"
+      "version_requirement": ">= 2015. < 2015.4.0"
     },
     {
       "name": "puppet",
