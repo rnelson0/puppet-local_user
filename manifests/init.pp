@@ -27,43 +27,27 @@
 # Copyright 2014 Rob Nelson
 #
 define local_user (
-  $state,
-  $groups,
-  $password,
-  $comment             = $name,
-  $uid                 = undef,
-  $gid                 = $name,
-  $last_change         = 0,
-  $password_max_age    = 90,
-  $shell               = '/bin/bash',
-  $home                = "/home/${name}",
-  $managehome          = true,
-  $ssh_authorized_keys = [],
-  $manage_groups       = false,
-  $system              = false,
+  Enum['present','absent']                                    $state,
+  Array[String]                                               $groups,
+  String                                                      $password,
+  String                                                      $comment             = $name,
+  Optional[Variant[Integer, String]]                          $uid                 = undef,
+  Variant[Integer, String]                                    $gid                 = $name,
+  Variant[Integer, Pattern[/^\d+-\d+-\d+$/]]                  $last_change         = 0,
+  Integer                                                     $password_max_age    = 90,
+  Stdlib::AbsolutePath                                        $shell               = '/bin/bash',
+  Stdlib::AbsolutePath                                        $home                = "/home/${name}",
+  Boolean                                                     $managehome          = true,
+  Array[String]                                               $ssh_authorized_keys = [],
+  Variant[Boolean,Enum['enabled','primary','gid','disabled']] $manage_groups       = false,
+  Boolean                                                     $system              = false,
 ) {
-  validate_string($name)
-  validate_string($state)
   if ($state == 'absent') {
       user { $name:
       ensure => $state,
     }
   }
   else {
-    validate_re($shell, '^/.*/.*')
-    validate_string($comment)
-    validate_array($groups)
-    validate_string($password)
-    validate_bool($managehome)
-    validate_re("${last_change}", '^(\d+|\d+-\d+-\d+)$') #lint:ignore:only_variable_string
-    validate_integer($password_max_age)
-    validate_string($home)
-    validate_string($gid)
-    validate_bool($system)
-    if ($uid) {
-      validate_integer($uid)
-    }
-
     if ($manage_groups) {
       #Set groups to check for
       case $manage_groups {
@@ -122,7 +106,5 @@ define local_user (
       }
       User[$name] -> Local_user::Ssh_authorized_keys[$ssh_authorized_keys]
     }
-
   }
-
 }
