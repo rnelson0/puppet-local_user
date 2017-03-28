@@ -1,6 +1,7 @@
 require 'spec_helper'
 describe 'local_user', :type => :define do
   let (:title) { 'rnelson0' }
+
   let (:params) do
     {
       :state    => 'present',
@@ -57,7 +58,7 @@ describe 'local_user', :type => :define do
         :password      => 'encryptedstring',
         :manage_groups => 'gid',
       }
-  end
+    end
 
     it { is_expected.to create_user('rnelson0').with({
       :comment          => 'Rob Nelson',
@@ -68,7 +69,7 @@ describe 'local_user', :type => :define do
     it { is_expected.not_to create_group('group2') }
   end
 
-context 'set manage_groups to false' do
+  context 'set manage_groups to false' do
     let (:params) do
       {
         :state          => 'present',
@@ -85,19 +86,6 @@ context 'set manage_groups to false' do
     it { is_expected.not_to create_group('rnelson0') }
     it { is_expected.not_to create_group('group1') }
     it { is_expected.not_to create_group('group2') }
-end
-context 'manage_groups with invalid input' do
-    let (:params) do
-      {
-        :state         => 'present',
-        :comment       => 'Rob Nelson',
-        :groups        => ['group1', 'group2'],
-        :password      => 'encryptedstring',
-        :manage_groups => 'foo',
-      }
-  end
-  
-    it { is_expected.to raise_error(Puppet::Error) }
   end
 
   context 'using full params' do
@@ -114,6 +102,7 @@ context 'manage_groups with invalid input' do
         :uid                 => 101,
         :gid                 => 'group2',
         :system              => true,
+        :last_change         => '2012-01-01',
       }
     end
 
@@ -129,34 +118,5 @@ context 'manage_groups with invalid input' do
     }) }
     it { is_expected.to create_local_user__ssh_authorized_keys('ssh-rsa AAAA...zwE1 rsa-key-20141029') }
     it { is_expected.not_to create_group('rnelson0') }
-  end
-
-  context 'with a valid date for last_change' do
-    let (:params) do
-      {
-        :state    => 'present',
-        :comment  => 'Rob Nelson',
-        :groups   => ['group1', 'group2'],
-        :password => 'encryptedstring',
-	:last_change => '2012-01-01',
-      }
-    end
-
-    it { is_expected.to create_user('rnelson0') }
-    it { is_expected.not_to create_group('rnelson0') }
-  end
-
-  context 'with an invalid date for last_change' do
-    let (:params) do
-      {
-        :state    => 'present',
-        :comment  => 'Rob Nelson',
-        :groups   => ['group1', 'group2'],
-        :password => 'encryptedstring',
-	:last_change => '2012-Jan-01',
-      }
-    end
-
-    it { is_expected.to raise_error(Puppet::Error) }
   end
 end
