@@ -1,121 +1,124 @@
 require 'spec_helper'
-describe 'local_user', :type => :define do
-  let (:title) { 'rnelson0' }
+describe 'local_user', type: :define do
+  let :title do
+    'rnelson0'
+  end
 
-  let (:params) do
+  let :params do
     {
-      :state    => 'present',
-      :groups   => ['group1', 'group2'],
-      :password => 'encryptedstring',
+      state: 'present',
+      groups: ['group1', 'group2'],
+      password: 'encryptedstring',
     }
   end
 
-  let (:facts) do
+  let :facts do
     {
-      :osfamily    => 'Debian',
-      :linux_users => ['nobody'],
+      osfamily: 'Debian',
+      linux_users: ['nobody'],
     }
   end
 
   context 'using minimum params' do
-    it { is_expected.to create_user('rnelson0').with({
-      :comment          => 'rnelson0',
-      :shell            => '/bin/bash',
-      :home             => '/home/rnelson0',
-      :groups           => ['group1', 'group2'],
-      :password_max_age => 90,
-      :password         => 'encryptedstring',
-    }) }
+    it {
+      is_expected.to create_user('rnelson0').with(comment: 'rnelson0',
+                                                  shell: '/bin/bash',
+                                                  home: '/home/rnelson0',
+                                                  groups: ['group1', 'group2'],
+                                                  password_max_age: 90,
+                                                  password: 'encryptedstring')
+    }
     it { is_expected.not_to create_group('rnelson0') }
   end
 
   context 'managing all groups' do
-    let (:params) do
+    let :params do
       {
-        :state         => 'present',
-        :comment       => 'Rob Nelson',
-        :groups        => ['group1', 'group2'],
-        :password      => 'encryptedstring',
-        :manage_groups => true,
+        state: 'present',
+        comment: 'Rob Nelson',
+        groups: ['group1', 'group2'],
+        password: 'encryptedstring',
+        manage_groups: true,
       }
     end
 
-    it { is_expected.to create_user('rnelson0').with({
-      :comment          => 'Rob Nelson',
-      :groups           => ['group1', 'group2'],
-    }) }
+    it {
+      is_expected.to create_user('rnelson0').with(comment: 'Rob Nelson',
+                                                  groups: ['group1', 'group2'])
+    }
     it { is_expected.to create_group('rnelson0') }
     it { is_expected.to create_group('group1') }
     it { is_expected.to create_group('group2') }
   end
 
   context 'managing gid only' do
-    let (:params) do
+    let :params do
       {
-        :state         => 'present',
-        :comment       => 'Rob Nelson',
-        :groups        => ['group1', 'group2'],
-        :password      => 'encryptedstring',
-        :manage_groups => 'gid',
+        state: 'present',
+        comment: 'Rob Nelson',
+        groups: ['group1', 'group2'],
+        password: 'encryptedstring',
+        manage_groups: 'gid',
       }
     end
 
-    it { is_expected.to create_user('rnelson0').with({
-      :comment          => 'Rob Nelson',
-      :groups           => ['group1', 'group2'],
-    }) }
+    it {
+      is_expected.to create_user('rnelson0').with(comment: 'Rob Nelson',
+                                                  groups: ['group1', 'group2'])
+    }
     it { is_expected.to create_group('rnelson0') }
     it { is_expected.not_to create_group('group1') }
     it { is_expected.not_to create_group('group2') }
   end
 
   context 'set manage_groups to false' do
-    let (:params) do
+    let :params do
       {
-        :state          => 'present',
-        :groups         => ['group1','group2'],
-        :password       => 'encryptedstring',
-        :manage_groups  => false,
+        state: 'present',
+        groups: ['group1', 'group2'],
+        password: 'encryptedstring',
+        manage_groups: false,
       }
     end
-    it { is_expected.to create_user('rnelson0').with({
-      :comment          => 'rnelson0',
-      :groups           => ['group1', 'group2'],
-      :password_max_age => 90,
-    }) }
+
+    it {
+      is_expected.to create_user('rnelson0').with(comment: 'rnelson0',
+                                                  groups: ['group1', 'group2'],
+                                                  password_max_age: 90)
+    }
     it { is_expected.not_to create_group('rnelson0') }
     it { is_expected.not_to create_group('group1') }
     it { is_expected.not_to create_group('group2') }
   end
 
   context 'using full params' do
-    let (:params) do
+    let :params do
       {
-        :state               => 'present',
-        :comment             => 'Rob Nelson',
-        :shell               => '/bin/zsh',
-        :home                => '/nfshome/rnelson0',
-        :groups              => ['group1', 'group2'],
-        :password            => 'encryptedstring',
-        :password_max_age    => 120,
-        :ssh_authorized_keys => ['ssh-rsa AAAA...zwE1 rsa-key-20141029'],
-        :uid                 => 101,
-        :gid                 => 'group2',
-        :system              => true,
-        :last_change         => '2012-01-01',
+        state: 'present',
+        comment: 'Rob Nelson',
+        shell: '/bin/zsh',
+        home: '/nfshome/rnelson0',
+        groups: ['group1', 'group2'],
+        password: 'encryptedstring',
+        password_max_age: 120,
+        ssh_authorized_keys: ['ssh-rsa AAAA...zwE1 rsa-key-20141029'],
+        uid: 101,
+        gid: 'group2',
+        system: true,
+        last_change: '2012-01-01',
       }
     end
 
-    it { is_expected.to create_user('rnelson0').with({
-      :comment          => 'Rob Nelson',
-      :shell            => '/bin/zsh',
-      :home             => '/nfshome/rnelson0',
-      :groups           => ['group1', 'group2'],
-      :password_max_age => 120,
-      :password         => 'encryptedstring',
-      :uid              => 101,
-      :system           => true
-    }) }
+    it {
+      is_expected.to create_user('rnelson0').with(comment: 'Rob Nelson',
+                                                  shell: '/bin/zsh',
+                                                  home: '/nfshome/rnelson0',
+                                                  groups: ['group1', 'group2'],
+                                                  password_max_age: 120,
+                                                  password: 'encryptedstring',
+                                                  uid: 101,
+                                                  system: true)
+    }
     it { is_expected.to create_local_user__ssh_authorized_keys('ssh-rsa AAAA...zwE1 rsa-key-20141029') }
     it { is_expected.not_to create_group('rnelson0') }
   end
