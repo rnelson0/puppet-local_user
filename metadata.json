@@ -13,12 +13,6 @@
       "version_requirement": ">= 4.13.1"
     }
   ],
-  "requirements": [
-    {
-      "name": "puppet",
-      "version_requirement": ">=4.6.0 <7.0.0"
-    }
-  ],
   "operatingsystem_support": [
     {
       "operatingsystem": "RedHat",
@@ -40,5 +34,14 @@
         "7"
       ]
     }
-  ]
+  ],
+  "requirements": [
+    {
+      "name": "puppet",
+      "version_requirement": ">=4.6.0 <7.0.0"
+    }
+  ],
+  "pdk-version": "1.11.0",
+  "template-url": "pdk-default#1.11.0",
+  "template-ref": "1.11.0-0-g67637d4"
 }
