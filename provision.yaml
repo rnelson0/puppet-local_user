@@ -1,0 +1,7 @@
+---
+travis_centos:
+  provisioner: docker
+  images: ['centos:6','centos:7']
+localhost:
+  provisioner: docker
+  images: ['centos:7']

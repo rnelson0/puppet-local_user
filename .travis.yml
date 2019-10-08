@@ -14,8 +14,7 @@ bundler_args: --without system_tests
 rvm:
   - 2.5.3
 stages:
-  - static
-  - spec
+  - unit
   - acceptance
   -
     if: tag =~ ^v\d
@@ -25,18 +24,21 @@ matrix:
   include:
     -
       env: CHECK="check:symlinks check:git_ignore check:dot_underscore check:test_file rubocop syntax lint metadata_lint"
-      stage: static
+      stage: unit
     -
       env: PUPPET_GEM_VERSION="~> 5.0" CHECK=parallel_spec
       rvm: 2.4.5
-      stage: spec
+      stage: unit
     -
       env: PUPPET_GEM_VERSION="~> 6.0" CHECK=parallel_spec
       rvm: 2.5.3
-      stage: spec
+      stage: unit
     -
       env: DEPLOY_TO_FORGE=yes
       stage: deploy
+    -
+      env: PUPPET_GEM_VERSION="~> 6.0" TARGET_HOST=localhost ACCEPTANCE=yes CHECK="litmus:provision_list[travis_centos] litmus:install_agent[puppet6] litmus:install_module litmus:acceptance:parallel"
+      stage: acceptance
 branches:
   only:
     - master
